@@ -1,11 +1,42 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+author: 'Philip Damianik'
+name: 'sftp upload'
+description: 'A wrapper around the rsync binary setup on the runner'
+branding:
+  icon: "upload-cloud"
+  color: "gray-dark"
 runs:
   using: 'node16'
   main: 'dist/index.js'
+inputs:
+  server:
+    description: "server"
+    required: true
+  port:
+    description: "server port (default: 22)"
+    required: true
+    default: 22
+  user:
+    description: "user"
+    required: true
+  user_private_key:
+    description: "Private SSH key for user (include via secrets if possible)"
+    required: true
+  host_public_key:
+    description: "Public SSH fingerprint of host (obtainable via ssh-keyscan, excl. host)"
+    required: false
+    default: ""
+  local:
+    description: "Local path to sync (default: .)"
+    required: true
+    default: .
+  remote:
+    description: "Path on server (default: .)"
+    required: true
+    default: .
+  ssh_options:
+    description: "Additional options for SSH (see man ssh(1) for details)"
+    required: false
+  rsync_options:
+    description: "Additional options for rsync (see man rsync(1) for details)"
+    required: false
+    default: "--exclude=.git*/"
